@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+<!-- block:important-tags-for-seo -->
+{% block head %}
+<!-- Open Graph Meta Datas -->
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="{{post.title}}" />
+<meta property="og:description" content="{{post.content|truncatechars:160 }}" />
+<meta property="og:url" content="{% url 'single' post.slug %}" />
+<meta property="og:site_name" content="{{Blog_info.title}}" />
+<meta property="article:publisher" content="https://www.facebook.com/myuser" />
+
+<!-- SEO Meta Title  -->
+<title>{% if post.meta_title %} {{post.meta_title}} {% else %} {{post.title}} {% endif %}</title>
+<!-- Meta Description -->
+<meta name="description" content="{% if post.meta_description %} {{post.meta_description}} {% else %} {{post.content|truncatechars:170}} {% endif %}" />
+
+{% endblock %}
+
+
+{% block content %}
+<div class="container my-3">
+    <div class="row py-3">
+        <div class="col-md-9">
+            <!-- breadcrumb -->
+            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a class="text-decoration-none text-secondary" href="{% url 'home' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a class="text-decoration-none text-secondary" href="#">{{post.category.title}}</a></li>
+                  <li class="breadcrumb-item active text-secondary" aria-current="page">{{post.title |truncatechars:17}}</li>
+                </ol>
+              </nav>
+              <!-- heading -->
+              <h1 class="h2 my-3">{{post.title}}</h1>
+              <!-- author name and update -->
+              <div class="rounded border-top border-bottom py-1 ">
+                <span class="badge bg-secondary">{{post.category.title}}</span> Last updated on {{post.mod_date}} by <span class="text-success">{{post.category.author.name}}</span>
+              </div>
+              <!-- content -->
+              <div class="my-3">
+                {{post.content | safe}}
+              </div>
+              <br>
+     <!-- share button -->
+     <div class="social-share-buttons-container mb-3">
+      <h5>Share this post:</h5>
+      <div class="social-share-buttons btn-group d-flex flex-wrap justify-content-center">
+        <!-- Facebook share button -->
+        <a class="btn btn-outline-primary btn-lg btn-social-share" href="https://www.facebook.com/sharer/sharer.php?u={% url 'single' post.slug %}" target="_blank" rel="noopener" aria-label="Share on Facebook">
+          <i class="fab fa-facebook fa-lg"></i> Facebook
+        </a>
+        
+        <!-- Twitter share button -->
+        <a class="btn btn-outline-info btn-lg btn-social-share" href="https://twitter.com/intent/tweet?url={% url 'single' post.slug %}&amp;text={{ post.title }}" target="_blank" rel="noopener" aria-label="Share on Twitter">
+          <i class="fab fa-twitter fa-lg"></i> Twitter
+        </a>
+        
+        <!-- LinkedIn share button -->
+        <a class="btn btn-outline-warning btn-lg btn-social-share" href="https://www.linkedin.com/sharing/share-offsite/?url={% url 'single' post.slug %}" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+          <i class="fab fa-linkedin fa-lg"></i> LinkedIn
+        </a>
+        
+        <!-- Email share button -->
+        <a class="btn btn-outline-danger btn-lg btn-social-share" href="mailto:?subject={{ post.title }}&amp;body={% url 'single' post.slug %}" target="_blank" rel="noopener" aria-label="Share via Email">
+          <i class="far fa-envelope fa-lg"></i> Email
+        </a>
+      </div>
+    </div>
+        </div>
+        <div class="col-md-3">Sidebar</div>
+    </div>
+</div>
+{% endblock %}
